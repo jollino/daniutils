@@ -27,7 +27,7 @@ def get_code(word):
 
 def make_output(counts, date):
 	#TODO make sure date works across multiple days
-	output = ""
+	output = "\n"
 	for tasktype in counts:
 		type1, type2, aet = tasktype.split("|")
 		count = counts[tasktype]
@@ -49,12 +49,12 @@ def main():
 			continue
 		chunks = line.split('\t')
 		chunks = [chunk.strip() for chunk in chunks]
-		print(chunks)
+		#print(chunks)
 		id, timestamp, aet, type2, type1 = chunks
 		date = get_converted_date(timestamp)
 		tasktype = f"{get_code(type1)}|{get_code(type2)}|{aet}"
 
-		print(tasktype)
+		#print(tasktype)
 		if tasktype in counts:
 			counts[tasktype] += 1
 		else:
