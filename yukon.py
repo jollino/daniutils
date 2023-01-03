@@ -25,20 +25,22 @@ def get_code(word):
 		return CODES[word]
 	return word
 
-def make_output(type1, type2, aet, count, date):
-	output = f"{get_code(type1)} {get_code(type2)}\t"
-	output += f"{float(aet)}\t"
-	output += f"{count}\t"
-	output += f"{date}"
+def make_output(counts, date):
+	#TODO make sure date works across multiple days
+	output = "\n"
+	for tasktype in counts:
+		type1, type2, aet = tasktype.split("|")
+		count = counts[tasktype]
+		output += f"{type1} {type2}\t"
+		output += f"{float(aet)}\t"
+		output += f"{count}\t"
+		output += f"{date}\n"
 	return output
 
 
 def main():
 	everything = sys.stdin.readlines()
-
-	previous = {"type1": None, "type2": None, "aet": None}
-	count_subtotal = 0
-	output = ""
+	counts = {}
 
 	for line in everything:
 		if line[-1] == "\n":
@@ -50,31 +52,16 @@ def main():
 		#print(chunks)
 		id, timestamp, aet, type2, type1 = chunks
 		date = get_converted_date(timestamp)
+		tasktype = f"{get_code(type1)}|{get_code(type2)}|{aet}"
 
-		# è il primo, inizializziamo un po' di roba
-		if previous["type1"] is None: previous["type1"] = type1 
-		if previous["type2"] is None: previous["type2"] = type2
-		if previous["aet"] is None: previous["aet"] = aet
+		#print(tasktype)
+		if tasktype in counts:
+			counts[tasktype] += 1
+		else:
+			counts[tasktype] = 1
 
-		if type1 != previous["type1"] or type2 != previous["type2"] or aet != previous["aet"]: # NON siamo in un batch
-			#print("X")
-			# non siamo in un batch, stampiamo il totale (usando i valori __vecchi__ altrimenti ce li perdiamo!) e prepariamo per il prossimo
-			output = make_output(previous["type1"], previous["type2"], previous["aet"], count_subtotal, date)
-			print(output)
-			previous["type1"], previous["type2"], previous["aet"] = type1, type2, aet
-			count_subtotal = 1 # ripartiamo da 1 perché già ne abbiamo 1 (questo)
-			continue
-
-		# siamo in un batch
-		#print("B")
-		count_subtotal += 1
-		#print(count_subtotal)
-	# l'ultimo lo dobbiamo comunque stampare così com'è
-	#print("finito")
-	output = make_output(previous["type1"], previous["type2"], previous["aet"], count_subtotal, date)
+	output = make_output(counts, date) # TODO check date in the source
 	print(output)
-
-
 
 if __name__ == '__main__':
 	main()
