@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # TDB: the data structure is hideous, probably should be thought over
+# TBD: when split sessions exist (i.e. multiple entries for the same day), the "average per day worked value" is incorrect as it's summed up
 
 import csv, sys, calendar
 
@@ -37,7 +38,7 @@ def main():
 	tot_worst = 0
 
 	# TDB: should probably only print the header if we DO get valid output
-	print("Filename\tMinutes worked\tAverage per day worked\tAverage per month day\tBest day\tWorst day")
+	print("Filename\tMins. worked\tAvg. per day worked\tAvg. per mo's day\tBest day\tWorst day")
 
 	for filename in filenames:
 		month_minutes = 0
