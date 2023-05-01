@@ -30,6 +30,7 @@ def make_output(counts, date):
 	output = "\n"
 	for tasktype in counts:
 		type1, type2, aet = tasktype.split("|")
+		type2 = type2 if type2 != "X" else ""
 		count = counts[tasktype]
 		output += f"{type1} {type2}\t"
 		output += f"{float(aet)}\t"
