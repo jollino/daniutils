@@ -29,10 +29,13 @@ def make_output(counts, date):
 	#TODO make sure date works across multiple days
 	output = "\n"
 	for tasktype in counts:
+		print(tasktype)
 		type1, type2, aet = tasktype.split("|")
-		type2 = type2 if type2 != "X" else ""
+		thetype = type1 if type2 == "X" else type2
+		#type2 = type2 if type2 != "X" else ""
+		#type1 = type2 if type2 != "X" else ""
 		count = counts[tasktype]
-		output += f"{type1} {type2}\t"
+		output += f"{thetype}\t"
 		output += f"{float(aet)}\t"
 		output += f"{count}\t"
 		output += f"{date}\n"
@@ -53,7 +56,11 @@ def main():
 		#print(chunks)
 		id, timestamp, aet, type2, type1 = chunks
 		date = get_converted_date(timestamp)
-		tasktype = f"{get_code(type1)}|{get_code(type2)}|{aet}"
+		#tasktype = f"{get_code(type1)}|{get_code(type2)}|{aet}"
+		if type2 == "X":
+			tasktype = f"{get_code(type1)}|X|{aet}"
+		else:
+			tasktype = f"{get_code(type2)}|X|{aet}"
 
 		#print(tasktype)
 		if tasktype in counts:

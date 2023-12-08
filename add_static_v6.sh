@@ -1,7 +1,7 @@
 #!/bin/bash
 
-IF=en0
-HOSTID=::1984
+IF="en0"
+HOSTID="::1984"
 
 ###
 
