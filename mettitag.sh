@@ -3,7 +3,6 @@
 for file in *.mp3; do
   base_name=$(basename "$file" .mp3)
 
-  # Check if the second field is "NA"
   if [[ "$base_name" =~ ^([0-9]+)\ -\ NA\ -\ (.+)\ -\ (.+)\ -\ (.+)$ ]]; then
     track_number="${BASH_REMATCH[1]}"
     album="${BASH_REMATCH[2]}"
